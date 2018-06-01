@@ -3,16 +3,24 @@ import './index.css';
 import todos from './todos.json';
 
 const ToDoItem = (props) => {
+  const completed = () => {
+    if (props.completed) {
+      return "completed"
+    } else {
+      return null
+    }
+  }
+  const checked = () => {
+    if (props.completed) {
+      return true
+    } else {
+      return null
+    }
+  }
   return (
-      <li className={() => {
-        if (props.completed) {
-          return "completed"
-        } else {
-          return null
-        }
-      }}>
+      <li className={completed()}>
         <div className="view">
-        <input className="toggle" type="checkbox"/>
+        <input className="toggle" type="checkbox" defaultChecked={checked()}/>
         <label>{props.title}</label>
         <button className="destroy"></button>
         </div>
@@ -22,12 +30,14 @@ const ToDoItem = (props) => {
 
 class ToDoList extends Component {
   state = {
-    todos
+    todos: todos.slice()
   }
 
   render () {
     return (
-      this.state.todos.map( todo => <ToDoItem completed={todo.completed} title={todo.title}/>)
+      <ul className="todo-list">
+      {this.state.todos.map( todo => <ToDoItem key={todo.id} completed={todo.completed} title={todo.title}/>)}
+      </ul>
     )
   }
 }
@@ -41,6 +51,10 @@ class App extends Component {
 				  <input className="new-todo" placeholder="What needs to be done?" autoFocus/>
 			  </header>
         <ToDoList/>
+        <footer className="footer">
+          <span className="todo-count"><strong>{0 || todos.length}</strong> item(s) left</span>
+          <button className="clear-completed">Clear Completed</button>
+        </footer>
       </section>
     );
   }
