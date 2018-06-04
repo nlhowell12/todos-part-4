@@ -11,18 +11,22 @@ class ToDoItem extends Component {
     }
   }
   checked = () => {
+    console.log(this.props.completed)
     if (this.props.completed) {
       return true
     } else {
       return null
     }
   }
+
+  completeTask = () => {
+    this.props.taskCompleted(this.props)
+  }
   render () {
-    console.log(this)
   return (
       <li className={this.completed()}>
         <div className="view">
-        <input className="toggle" type="checkbox" defaultChecked={this.checked()} onChange={this.props.taskCompleted(this)}/>
+        <input className="toggle" type="checkbox" defaultChecked={this.checked()} onChange={this.completeTask}/>
         <label>{this.props.title}</label>
         <button className="destroy"></button>
         </div>
@@ -35,7 +39,7 @@ class ToDoList extends Component {
   render () {
     return (
       <ul className="todo-list">
-      {this.props.todos.map( todo => <ToDoItem key={todo.id} completed={todo.completed} title={todo.title} taskCompleted={this.props.taskCompleted}/>)}
+      {this.props.todos.map( todo => <ToDoItem key={todo.id} id={todo.id} completed={todo.completed} title={todo.title} taskCompleted={this.props.taskCompleted}/>)}
       </ul>
     )
   }
@@ -47,7 +51,12 @@ class App extends Component {
   }
 
   taskCompleted = (todo) => {
-    console.log(todo)
+    const modify = this.state.todos.findIndex((found) => {return found.id === todo.id})
+    let modifiedArray = this.state.todos.slice()
+    modifiedArray[modify].completed = !modifiedArray[modify].completed
+    
+    this.setState({todos: modifiedArray})
+    
   }
 
   addTodo = (e) => {
@@ -61,7 +70,10 @@ class App extends Component {
     }]});
     document.getElementById("text-input").value = ""
   }
-    console.log(this.state.todos)
+  }
+
+  deleteItem = () => {
+
   }
 
   render() {
