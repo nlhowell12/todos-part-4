@@ -65,9 +65,7 @@ class App extends Component {
 
   deleteAllItems = () => {
     const { todos } = this.state;
-    let oldState = todos.slice()
-    let newState = oldState.filter(todo => !todo.completed)
-    this.setState({todos: newState})
+    this.setState({todos: todos.filter(todo => !todo.completed)})
   }
 
   render() {
