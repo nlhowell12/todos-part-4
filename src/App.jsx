@@ -3,29 +3,13 @@ import './index.css';
 import todos from './todos.json';
 
 class ToDoItem extends Component {
-  completed = () => {
-    if (this.props.completed) {
-      return "completed"
-    } else {
-      return null
-    }
-  }
-  
-  completeTask = () => {
-    this.props.taskCompleted(this.props)
-  }
-
-  deleteItem = () => {
-    this.props.deleteItem(this.props)
-  }
-
   render () {
   return (
-      <li className={this.completed()}>
+      <li className={this.props.completed ? "completed" : null}>
         <div className="view">
-        <input className="toggle" type="checkbox" defaultChecked={this.props.completed} onChange={this.completeTask}/>
+        <input className="toggle" type="checkbox" defaultChecked={this.props.completed} onChange={this.props.taskCompleted(this.props.id)}/>
         <label>{this.props.title}</label>
-        <button className="destroy" onClick={this.deleteItem}></button>
+        <button className="destroy" onClick={this.props.deleteItem(this.props.id)}></button>
         </div>
       </li>
   )
@@ -47,13 +31,15 @@ class App extends Component {
     todos: todos.slice()
   }
 
-  taskCompleted = (todo) => {
-    const modify = this.state.todos.findIndex((found) => {return found.id === todo.id})
-    let modifiedArray = this.state.todos.slice()
-    modifiedArray[modify].completed = !modifiedArray[modify].completed
-    
-    this.setState({todos: modifiedArray})
-    
+  taskCompleted = id => evt => {
+    const { todos } = this.state;
+
+    this.setState({
+      todos: todos.map(todo => todo.id === id ? {
+        ...todo,
+        completed: !todo.completed
+      } : todo)
+    });
   }
 
   addTodo = (e) => {
@@ -69,11 +55,12 @@ class App extends Component {
   }
   }
 
-  deleteItem = (todo) => {
-    const modify = this.state.todos.findIndex((found) => {return found.id === todo.id})
-    let modifiedArray = this.state.todos.slice()
-    modifiedArray.splice(modify, 1);
-    this.setState({todos: modifiedArray})
+  deleteItem = id => evt => {
+    const { todos } = this.state;
+
+    this.setState({
+      todos: todos.filter(todo => todo.id !== id)
+    })
   }
 
   deleteAllItems = () => {
