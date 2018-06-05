@@ -10,15 +10,7 @@ class ToDoItem extends Component {
       return null
     }
   }
-  checked = () => {
-    console.log(this.props.completed)
-    if (this.props.completed) {
-      return true
-    } else {
-      return null
-    }
-  }
-
+  
   completeTask = () => {
     this.props.taskCompleted(this.props)
   }
@@ -31,7 +23,7 @@ class ToDoItem extends Component {
   return (
       <li className={this.completed()}>
         <div className="view">
-        <input className="toggle" type="checkbox" defaultChecked={this.checked()} onChange={this.completeTask}/>
+        <input className="toggle" type="checkbox" defaultChecked={this.props.completed} onChange={this.completeTask}/>
         <label>{this.props.title}</label>
         <button className="destroy" onClick={this.deleteItem}></button>
         </div>
@@ -84,6 +76,13 @@ class App extends Component {
     this.setState({todos: modifiedArray})
   }
 
+  deleteAllItems = () => {
+    const { todos } = this.state;
+    let oldState = todos.slice()
+    let newState = oldState.filter(todo => !todo.completed)
+    this.setState({todos: newState})
+  }
+
   render() {
     return (
       <section className="todoapp">
@@ -94,7 +93,7 @@ class App extends Component {
         <ToDoList todos={this.state.todos} taskCompleted={this.taskCompleted} deleteItem={this.deleteItem}/>
         <footer className="footer">
           <span className="todo-count"><strong>{0 || this.state.todos.length}</strong> item(s) left</span>
-          <button className="clear-completed">Clear Completed</button>
+          <button className="clear-completed" onClick={this.deleteAllItems}>Clear Completed</button>
         </footer>
       </section>
     );
