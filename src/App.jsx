@@ -1,34 +1,11 @@
 import React, { Component } from 'react';
 import './index.css';
 import todos from './todos.json';
-
-class ToDoItem extends Component {
-  render () {
-  return (
-      <li className={this.props.completed ? "completed" : null}>
-        <div className="view">
-        <input className="toggle" type="checkbox" defaultChecked={this.props.completed} onChange={this.props.taskCompleted(this.props.id)}/>
-        <label>{this.props.title}</label>
-        <button className="destroy" onClick={this.props.deleteItem(this.props.id)}></button>
-        </div>
-      </li>
-  )
-  }
-}
-
-class ToDoList extends Component {
-  render () {
-    return (
-      <ul className="todo-list">
-      {this.props.todos.map( todo => <ToDoItem key={todo.id} id={todo.id} completed={todo.completed} title={todo.title} taskCompleted={this.props.taskCompleted} deleteItem={this.props.deleteItem}/>)}
-      </ul>
-    )
-  }
-}
+import ToDoList from './toDoList.jsx';
 
 class App extends Component {
   state = {
-    todos: todos.slice()
+    todos: todos
   }
 
   taskCompleted = id => evt => {
@@ -43,11 +20,12 @@ class App extends Component {
   }
 
   addTodo = (e) => {
+    const { todos } = this.state;
     const title = document.getElementById("text-input").value;
     if(e.key === "Enter") {
-    this.setState({todos: [...this.state.todos, {
+    this.setState({todos: [...todos, {
       "userId": 1,
-      "id": this.state.todos.length + 1,
+      "id": todos[todos.length -1].id + 1,
       "title": title,
       "completed": false
     }]});
