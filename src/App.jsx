@@ -57,7 +57,7 @@ class App extends Component {
           <input id="text-input" className="new-todo" placeholder="What needs to be done?" autoFocus onKeyPress={this.addTodo}/>
         </header>
         <Switch>
-          <Route exact path='/' component={() => <ToDoList todos={todos} taskCompleted={this.taskCompleted} deleteItem={this.deleteItem}/>}/>
+          <Route exact path='/' render={() => <ToDoList todos={todos} taskCompleted={this.taskCompleted} deleteItem={this.deleteItem}/>}/>
           <Route path='/active' render={() => <ToDoList todos={todos.filter(todo => !todo.completed)} taskCompleted={this.taskCompleted} deleteItem={this.deleteItem}/>}/>
           <Route path='/completed' render={() => <ToDoList todos={todos.filter(todo => todo.completed)} taskCompleted={this.taskCompleted} deleteItem={this.deleteItem}/>}/>
         </Switch>
