@@ -3,12 +3,14 @@ import './index.css';
 import todos from './todos.json';
 import ToDoList from './toDoList.jsx';
 import {Route, Switch} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addTodo, clearCompleted } from './actions.js'
 
 class App extends Component {
   state = {
-    todos: todos
+    todos
   }
-  
+
   taskCompleted = id => evt => {
     const { todos } = this.state;
     
