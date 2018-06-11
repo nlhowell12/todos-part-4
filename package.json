@@ -12,7 +12,7 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0"
   },
-  "homepage": "http://nlhowell12.github.io/todos-part-3",
+  "homepage": "http://nlhowell12.github.io/todos-part-4",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
