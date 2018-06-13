@@ -3,9 +3,10 @@ import ToDoItem from './toDoItem.jsx';
 
 class ToDoList extends Component {
     render () {
+      const { todos } = this.props
       return (
         <ul className="todo-list">
-        {this.props.todos.map( todo => <ToDoItem key={todo.id} id={todo.id} completed={todo.completed} title={todo.title} taskCompleted={this.props.taskCompleted} deleteItem={this.props.deleteItem}/>)}
+        {todos.map(todo => <ToDoItem key={todo.id} id={todo.id} completed={todo.completed} title={todo.title}/>)}
         </ul>
       )
     }
